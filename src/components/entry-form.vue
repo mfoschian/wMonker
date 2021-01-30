@@ -74,12 +74,20 @@
 
 <script>
 export default {
-	data() {
-		return {
+	props: {
+		item: { type: Object, default: () => ({
 			dt: new Date(),
 			amount: 0,
 			tag: [],
 			note: "",
+		})}
+	},
+	data() {
+		return {
+			dt: this.item.dt || new Date(),
+			amount: this.item.amount || 0,
+			tag: this.item.tag || [],
+			note: this.item.note || "",
 		}
 	},
 	methods: {

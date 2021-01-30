@@ -8,10 +8,23 @@
 		v-if="!editor_visible"
 	>+</b-button>
 
-	<entryForm v-if="editor_visible" @save="save" @cancel="hide_form"></entryForm>
+	<!-- <entryForm v-if="editor_visible" @save="save" @cancel="hide_form"></entryForm> -->
 
+	<b-modal ref="new_item" v-model="show_modal" title="Ciao">
+		<entryForm :item="item"></entryForm>
+	</b-modal>
 	<hr>
-	<entries :items="items" @remove="remove" @selected="selected" :selected_id="item.id"/>
+	<entries
+		:items="items" 
+		:limit="visible_items_count"
+		@remove="remove"
+		@selected="selected"
+		:selected_id="item.id"
+	/>
+
+	<b-button v-if="visible_items_count < items.length"
+		@click="visible_items_count+=2"
+	>...</b-button>
   </b-container>
 </template>
 
@@ -35,15 +48,18 @@ export default {
 				tag: [],
 				note: "",
 			},
-			items: []
+			items: [],
+			show_modal: false,
+			visible_items_count: 3,
 		}
 	},
 	methods: {
 		show_form() {
-			this.editor_visible = true;
+			// this.editor_visible = true;
+			this.$refs['new_item'].show();
 		},
 		hide_form() {
-				this.editor_visible = false;
+			this.editor_visible = false;
 		},
 		async load_data() {
 			try {
@@ -77,14 +93,17 @@ export default {
 			}
 		},
 		addItem() {
+			this.item = {};
 			this.show_form();
 		},
 		selected(id) {
 			let item = this.items.filter( x=> x.id==id )[0] || {};
 			if( item ) {
 				this.item = item;
+				this.show_form();
 			}
 
+			
 		}
 	},
 	mounted() {

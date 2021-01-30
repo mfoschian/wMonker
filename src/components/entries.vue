@@ -1,6 +1,6 @@
 <template>
 	<b-container fluid>
-		<card v-for="item in items" :key="item.id" :item="item"
+		<card v-for="item in visibile_items" :key="item.id" :item="item"
 			@longtap="$emit('selected', item.id)"
 			:class="{selected: selected_id==item.id}">
 		</card>
@@ -13,8 +13,14 @@ import card from '@/components/entry-card'
 export default {
 	components: { card },
 	props: {
+		limit: { type: Number, default: 3 },
 		items: { type: Array, default: () => [] },
 		selected_id: { type: String, default: null }
+	},
+	computed: {
+		visibile_items() {
+			return this.items.slice(0, this.limit);
+		}
 	}
 }
 </script>
