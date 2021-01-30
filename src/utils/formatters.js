@@ -5,6 +5,10 @@ function pad2(n) {
 }
 */
 
+const weekdays = [
+	'domenica', 'lunedì', 'martedì', 'mercoledì', 'giovedì', 'venerdì', 'sabato'
+];
+
 export function format_dt(dt) {
 
 	if(!dt) return '';
@@ -30,7 +34,7 @@ export function format_dt(dt) {
 		return dt_date + '/' + (dt_month + 1);
 
 	if( this_date != dt_date )
-		return dt_date + '';
+		return weekdays[dt.getDay()] + ' ' + dt_date + '';
 
 	return 'oggi';
 }

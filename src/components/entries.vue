@@ -1,36 +1,20 @@
 <template>
 	<b-container fluid>
-		<b-row class="header">
-			<b-col>Data</b-col>
-			<b-col>Importo</b-col>
-			<b-col>Categoria</b-col>
-			<b-col cols="1"></b-col>
-		</b-row>
-		<b-row v-for="item in items" :key="item.id"
-			@click="$emit('selected', item.id)"
-			class="item"
+		<card v-for="item in items" :key="item.id" :item="item"
+			@longtap="$emit('selected', item.id)"
 			:class="{selected: selected_id==item.id}">
-			<b-col>{{ format_dt(item.dt) }}</b-col>
-			<b-col>{{ euro(item.amount) }}</b-col>
-			<b-col>{{ item.tag.join(',') }}</b-col>
-			<b-col cols="1">
-				<button size="sm" @click="$emit('remove', item.id)">X</button>
-				<!-- <b-badge @click="$emit('remove', item.id)">X</b-badge> -->
-			</b-col>
-		</b-row>
+		</card>
 	</b-container>
 </template>
 
 <script>
-import {format_dt, euro} from '@/utils/formatters'
+import card from '@/components/entry-card'
 
 export default {
+	components: { card },
 	props: {
 		items: { type: Array, default: () => [] },
 		selected_id: { type: String, default: null }
-	},
-	methods: {
-		format_dt, euro
 	}
 }
 </script>
