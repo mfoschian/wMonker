@@ -9,6 +9,7 @@ import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 
 import longTapDirective from '@/directives/long-tap'
+import router from './router'
 
 const longTapInstance = longTapDirective({delay: 800})
 Vue.directive('longtappable', longTapInstance)
@@ -22,5 +23,6 @@ Vue.use(IconsPlugin)
 Vue.config.productionTip = false
 
 new Vue({
+  router,
   render: h => h(App)
 }).$mount('#app')
