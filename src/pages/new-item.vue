@@ -1,9 +1,27 @@
 <template>
-	<b-container fluid>
+	<b-card title="Registra Spesa">
+		<b-card-body>
 
-		<entryForm @save="save" @cancel="cancel"></entryForm>
+			<entryForm @save="save" ></entryForm>
 
-	</b-container>
+		</b-card-body>
+		<!--
+		<b-card-footer>
+			<b-row>
+				<b-col>
+					<b-button @click="save()" >Salva</b-button>
+				</b-col>
+				<b-col>
+					<b-button @click="cancel()" >Annulla</b-button>
+				</b-col>
+			</b-row>
+		</b-card-footer>
+		-->
+		<b-card-footer>
+			<b-button @click="gotoList()" >Vedi lista</b-button>
+		</b-card-footer>
+	</b-card>
+
 </template>
 
 <script>
@@ -29,9 +47,6 @@ export default {
 			catch( err ) {
 				console.error( err ); // eslint-disable-line
 			}
-		},
-		cancel() {
-			this.gotoList();
 		}
 	},
 }

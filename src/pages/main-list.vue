@@ -1,16 +1,15 @@
 <template>
   <b-container fluid >
-	<b-button @click="addItem"
+	<b-button
 		variant="info"
 		title="Aggiungi Spesa"
 		class="add-button"
 		to="/"
 	>+</b-button>
 
-	<!-- <entryForm v-if="editor_visible" @save="save" @cancel="hide_form"></entryForm> -->
-
-	<b-modal ref="new_item" v-model="show_modal" title="Ciao">
-		<entryForm :item="item"></entryForm>
+	<b-modal ref="new_item" title="Modifica">
+		<template #modal-footer><span></span></template>
+		<entryForm :item="item" @save="update"></entryForm>
 	</b-modal>
 	<hr>
 	<entries
@@ -39,7 +38,6 @@ export default {
 	components: { entryForm, entries },
 	data() {
 		return {
-			editor_visible: false,
 			item: {
 				id: null,
 				dt: null,
@@ -48,17 +46,15 @@ export default {
 				note: "",
 			},
 			items: [],
-			show_modal: false,
 			visible_items_count: 3,
 		}
 	},
 	methods: {
 		show_form() {
-			// this.editor_visible = true;
 			this.$refs['new_item'].show();
 		},
 		hide_form() {
-			this.editor_visible = false;
+			this.$refs['new_item'].hide();
 		},
 		async load_data() {
 			try {
@@ -69,14 +65,21 @@ export default {
 				console.error( ex ); // eslint-disable-line
 			}
 		},
-		async save(data) {
+		async update(data) {
 			console.log( data ); // eslint-disable-line
 			try {
 				// debugger; // eslint-disable-line
-				await DB.add( data );
-				this.items.push( data );
+				await DB.update( data );
+
+				for( let i=0; i<this.items.length; i++ ) {
+					let it = this.items[i];
+					if( it.id == data.id ) {
+						this.items.splice(i,1,data);
+						break;
+					}
+				}
+
 				this.hide_form();
-				this.item = data;
 			}
 			catch( err ) {
 				console.error( err ); // eslint-disable-line
@@ -90,10 +93,6 @@ export default {
 			catch( err ) {
 				console.error( err ); // eslint-disable-line
 			}
-		},
-		addItem() {
-			this.item = {};
-			this.show_form();
 		},
 		selected(id) {
 			let item = this.items.filter( x=> x.id==id )[0] || {};
