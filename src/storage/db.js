@@ -28,6 +28,26 @@ let DB = {
 			return null;
 		});
 	},
+	async update( item ) {
+		if( !item || !item.id ) {
+			console.error( 'update: id is null'); // eslint-disable-line
+			return null;
+		}
+		let record = {
+			id: item.id,
+			dt: item.dt || new Date(),
+			amount: item.amount,
+			note: item.note,
+			tag: item.tag
+		};
+		db.expenses.put( record ).then( function() {
+			return db.expenses.get(item.id)
+		})
+		.catch(function(err) {
+			console.error( err ); // eslint-disable-line
+			return null;
+		});
+	},
 	async remove( id ) {
 		// debugger; // eslint-disable-line
 		return db.expenses.delete( id )

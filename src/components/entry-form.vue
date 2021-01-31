@@ -1,7 +1,5 @@
 <template>
-	<b-card title="Registra Spesa">
-		<b-card-body>
-
+		<div>
 			<b-form-group
 				label-cols-sm="2"
 				label-cols-lg="2"
@@ -58,28 +56,33 @@
 				></b-form-datepicker>
 			</b-form-group>
 			
-		</b-card-body>
-		<b-card-footer>
-			<b-row>
-				<b-col>
-					<b-button @click="save()" >Salva</b-button>
-				</b-col>
-				<b-col>
-					<b-button @click="cancel()" >Annulla</b-button>
-				</b-col>
-			</b-row>
-		</b-card-footer>
-	</b-card>
+			<slot name="footer">
+				<hr>
+				<div align="center">
+					<b-button @click="save()">Salva</b-button>
+				</div>
+			</slot>
+		</div>
 </template>
 
 <script>
 export default {
-	data() {
-		return {
+	props: {
+		item: { type: Object, default: () => ({
+			id: null,
 			dt: new Date(),
 			amount: 0,
 			tag: [],
 			note: "",
+		})}
+	},
+	data() {
+		return {
+			id: this.item.id || null,
+			dt: this.item.dt || new Date(),
+			amount: this.item.amount || 0,
+			tag: this.item.tag || [],
+			note: this.item.note || "",
 		}
 	},
 	methods: {
@@ -89,6 +92,7 @@ export default {
 				dt = new Date(dt);
 			}
 			this.$emit('save', {
+				id: this.id,
 				dt: dt,
 				amount: this.amount,
 				tag: this.tag,
