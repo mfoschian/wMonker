@@ -24,7 +24,11 @@
 				label="Cosa"
 				label-for="input-what"
 			>
-				<b-form-tags input-id="tags-basic" v-model="tag"></b-form-tags>
+				<!-- <b-form-input input-id="tags-basic" v-model="tag"></b-form-input> -->
+				<tag_select 
+					input-id="tags-basic" v-model="tag"
+					:tags="tags"
+				></tag_select>
 			</b-form-group>
 
 
@@ -66,22 +70,26 @@
 </template>
 
 <script>
+import tag_select from './tag-select'
+
 export default {
+	components: { tag_select },
 	props: {
 		item: { type: Object, default: () => ({
 			id: null,
 			dt: new Date(),
 			amount: 0,
-			tag: [],
+			tag: '',
 			note: "",
-		})}
+		})},
+		tags: { type: Array, default: () => [] }
 	},
 	data() {
 		return {
 			id: this.item.id || null,
 			dt: this.item.dt || new Date(),
 			amount: this.item.amount || 0,
-			tag: this.item.tag || [],
+			tag: this.item.tag || '',
 			note: this.item.note || "",
 		}
 	},

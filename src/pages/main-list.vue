@@ -9,7 +9,7 @@
 
 	<b-modal ref="new_item" title="Modifica">
 		<template #modal-footer><span></span></template>
-		<entryForm :item="item" @save="update"></entryForm>
+		<entryForm :item="item" @save="update" :tags="tags_array"></entryForm>
 	</b-modal>
 	<hr>
 	<entries
@@ -47,6 +47,12 @@ export default {
 			},
 			items: [],
 			visible_items_count: 3,
+			ordered_tags: [],
+		}
+	},
+	computed: {
+		tags_array() {
+			return this.ordered_tags.map( x => x.name );
 		}
 	},
 	methods: {
@@ -60,6 +66,7 @@ export default {
 			try {
 				let items = await DB.get_all();
 				this.items = items;
+				this.ordered_tags = await DB.tags_by_hits();
 			}
 			catch( ex ) {
 				console.error( ex ); // eslint-disable-line
@@ -79,6 +86,7 @@ export default {
 					}
 				}
 
+				this.ordered_tags = await DB.tags_by_hits();
 				this.hide_form();
 			}
 			catch( err ) {
