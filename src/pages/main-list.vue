@@ -15,8 +15,8 @@
 	<entries
 		:items="items" 
 		:limit="visible_items_count"
-		@remove="remove"
-		@selected="selected"
+		@remove="remove_edit"
+		@edit="edit_item"
 		:selected_id="item.id"
 	/>
 
@@ -93,7 +93,11 @@ export default {
 				console.error( err ); // eslint-disable-line
 			}
 		},
-		async remove(id) {
+		async remove_edit(id) {
+			let ok = confirm("Cancello la spesa ?");
+			if( !ok )
+				return;
+
 			try {
 				await DB.remove(id);
 				this.items = this.items.filter( x => x.id != id );
@@ -102,7 +106,7 @@ export default {
 				console.error( err ); // eslint-disable-line
 			}
 		},
-		selected(id) {
+		edit_item(id) {
 			let item = this.items.filter( x=> x.id==id )[0] || {};
 			if( item ) {
 				this.item = item;

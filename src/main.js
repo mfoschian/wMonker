@@ -8,11 +8,11 @@ import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 
-import longTapDirective from '@/directives/long-tap'
+import tapDirective from '@/directives/long-tap'
 import router from './router'
 
-const longTapInstance = longTapDirective({delay: 800})
-Vue.directive('longtappable', longTapInstance)
+const tapDir = tapDirective({delay: 800})
+Vue.directive('tap', tapDir)
 
 
 // Make BootstrapVue available throughout your project

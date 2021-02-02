@@ -1,8 +1,10 @@
 <template>
 	<b-container fluid>
 		<card v-for="item in visibile_items" :key="item.id" :item="item"
-			@longtap="$emit('selected', item.id)"
-			:class="{selected: selected_id==item.id}">
+			@edit="$emit('edit', item.id)"
+			@remove="$emit('remove', item.id)"
+		>
+			<!-- :class="{selected: selected_id==item.id}"> -->
 		</card>
 	</b-container>
 </template>

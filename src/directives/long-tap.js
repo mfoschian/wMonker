@@ -1,11 +1,15 @@
 export default ({ delay = 400 }) => ({
-	bind: function (el, binding, vnode) {
+	// bind: function (el, binding, vnode) {
+	bind: function (el, binding) {
 
 		let timer = null;
+		// let arg = binding.arg || 'long';
+		// console.log('tap:%s', arg); // eslint-disable-line
+
 		// Run Function
-		const emit = () => {
-			// binding.value(e)
-			vnode.context.$emit('longtap');
+		const emit = (e) => {
+			binding.value(e)
+			// vnode.context.$emit('longtap');
 		}
 		
 		const start = (e) => {
