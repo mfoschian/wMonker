@@ -8,7 +8,10 @@ db.version(1).stores({
 	expenses: 'id,dt,tag',
 	tags: 'name,hits'
 });
-
+db.version(2).stores({
+	expenses: 'id,dt,tag',
+	tags: 'name,hits'
+});
 
 let DB = {
 	async inc_tag_hits( tag_name ) {
